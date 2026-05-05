@@ -1,0 +1,187 @@
+table financials
+	lineageTag: cd3ec86d-2813-4803-a07f-8a64b8383863
+
+	column Segment
+		dataType: string
+		lineageTag: 173940a0-7e83-4ead-a2c3-f3d4a9811a1f
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 3d6493f0-3160-4417-afed-131a1444aefb
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product
+		dataType: string
+		lineageTag: aff2f131-ddaa-451f-9a36-6538d08818c6
+		summarizeBy: none
+		sourceColumn: Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Discount Band'
+		dataType: string
+		lineageTag: cc338082-050d-45da-b3fc-112d695fda81
+		summarizeBy: none
+		sourceColumn: Discount Band
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Units Sold'
+		dataType: double
+		lineageTag: 3ff2dcfc-2cf1-4756-a302-be0aa6e9140c
+		summarizeBy: sum
+		sourceColumn: Units Sold
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Manufacturing Price'
+		dataType: int64
+		formatString: 0
+		lineageTag: 34c3821d-efcd-439f-904a-baddd4d0c9e9
+		summarizeBy: sum
+		sourceColumn: Manufacturing Price
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sale Price'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d56ec6b-3323-401f-b678-55dabe69d084
+		summarizeBy: sum
+		sourceColumn: Sale Price
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gross Sales'
+		dataType: double
+		lineageTag: 8d953a27-932f-46ec-854a-49146b636b70
+		summarizeBy: sum
+		sourceColumn: Gross Sales
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Discounts
+		dataType: double
+		lineageTag: 8f824f55-e0c7-4d30-8e5a-35383bf2ea2a
+		summarizeBy: sum
+		sourceColumn: Discounts
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ' Sales'
+		dataType: double
+		lineageTag: 8fd7bf9d-c355-4a83-ab65-7f992971069e
+		summarizeBy: sum
+		sourceColumn: " Sales"
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COGS
+		dataType: double
+		lineageTag: 4c37ffa6-a2bd-4881-95a0-e5acf6706a84
+		summarizeBy: sum
+		sourceColumn: COGS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Profit
+		dataType: double
+		lineageTag: 0a423d2b-90eb-441d-aa50-640560f84c7b
+		summarizeBy: sum
+		sourceColumn: Profit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9f314ced-58a7-4bc5-a3ad-e3a9e05ffb37
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 49b00814-498a-41f3-b59a-52559c80586b
+			defaultHierarchy: LocalDateTable_b1dc7d5d-a2a6-4679-806a-c19eb3523f85.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3307c013-1529-48d6-9c7b-b8538dc0b17b
+		summarizeBy: sum
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: 86417103-091a-41da-af0e-758cb9d9b433
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: e99a00e2-c542-48bc-b51c-97d124adb21b
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Merged
+		dataType: string
+		lineageTag: 182ec16b-2a71-4a6f-8685-9bb71a9db11c
+		summarizeBy: none
+		sourceColumn: Merged
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Merged.1'
+		dataType: string
+		lineageTag: bd71e56e-8420-400e-8783-0ded49a05e4b
+		summarizeBy: none
+		sourceColumn: Merged.1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition financials = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Rami.Alazaizeh\OneDrive - Hijazi And Ghosheh Group\Desktop\خاص\Power BI\Financial Sample (1).xlsx"), null, true),
+				    financials_Table = Source{[Item="financials",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(financials_Table,{{"Segment", type text}, {"Country", type text}, {"Product", type text}, {"Discount Band", type text}, {"Units Sold", type number}, {"Manufacturing Price", Int64.Type}, {"Sale Price", Int64.Type}, {"Gross Sales", type number}, {"Discounts", type number}, {" Sales", type number}, {"COGS", type number}, {"Profit", type number}, {"Date", type date}, {"Month Number", Int64.Type}, {"Month Name", type text}, {"Year", Int64.Type}}),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Changed Type", "Merged", each Text.Combine({"Made in ", [Country]}), type text),
+				    #"Inserted Merged Column1" = Table.AddColumn(#"Inserted Merged Column", "Merged.1", each Text.Combine({[Month Name], " ", Text.From([Year], "ar-JO")}), type text)
+				in
+				    #"Inserted Merged Column1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
